@@ -1,0 +1,164 @@
+<!--
+  GARRAN FEEDBACK PAGE
+
+  Before you upload this file:
+
+  1. Set your feedback email address.
+     Search this file for FEEDBACK_EMAIL.
+     Replace the placeholder address in that line with the
+     email address you want testers to send feedback to.
+     That is the only place the address needs to go.
+     Pick an address you are happy for testers to see, because
+     anyone who opens this page can find it in the file.
+
+  2. Upload to GitHub Pages.
+     Save this file as index.html if it is not already named that.
+     Create a new public repository on GitHub, for example
+     garran-feedback, and upload index.html to it.
+     In that repository, open Settings, then Pages.
+     Under Build and deployment, choose Deploy from a branch,
+     choose the main branch and the root folder, then Save.
+     After a minute or two your page will be live.
+     GitHub will show you the page address on that Pages screen.
+
+  3. Use the page address in Play Console.
+     Copy your live GitHub Pages address and paste it into the
+     Feedback URL or email address field for your test.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garrán feedback</title>
+<script>
+  const FEEDBACK_EMAIL = "taseroisefionnuar@gmail.com";
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #131313;
+    color: #e8d9a8;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.55;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 20px 44px;
+  }
+  h1 {
+    color: #d4af37;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+  p { margin: 0 0 16px; }
+  .intro { color: #f0e6c8; }
+  label, legend {
+    display: block;
+    font-weight: bold;
+    color: #d4af37;
+    margin: 22px 0 6px;
+  }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  fieldset label {
+    font-weight: normal;
+    color: #f0e6c8;
+    margin: 8px 0;
+  }
+  input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 12px;
+    font: inherit;
+    color: #f5eeda;
+    background: #1f1f1f;
+    border: 1px solid #8a7a3a;
+    border-radius: 6px;
+  }
+  input[type="radio"] { margin-right: 8px; }
+  textarea { min-height: 140px; resize: vertical; }
+  .hint { font-size: 0.92rem; color: #bdb08a; margin-top: 4px; }
+  button {
+    width: 100%;
+    margin-top: 28px;
+    padding: 14px 18px;
+    font: inherit;
+    font-weight: bold;
+    color: #131313;
+    background: #d4af37;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover, button:focus { background: #e6c65a; }
+  .note { font-size: 0.92rem; color: #bdb08a; margin-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Garrán feedback</h1>
+  <p class="intro">Thank you for testing Garrán. It means a lot.</p>
+  <p>Tell me what you tried, what worked, and what did not. Plain words are fine. Short is fine too. If something broke, tell me what you were doing just before it happened, if you can.</p>
+
+  <form id="feedback-form">
+    <label for="build">Build version</label>
+    <input type="text" id="build" name="build" placeholder="For example 1.3, 1.4" required>
+    <p class="hint">You can find this in the Play Store listing for the test, or in the app.</p>
+
+    <label for="phone">Phone and Android version</label>
+    <input type="text" id="phone" name="phone" placeholder="For example Pixel 8, Android 15" required>
+
+    <fieldset>
+      <legend>Type</legend>
+      <label><input type="radio" name="type" value="Bug" checked> Bug</label>
+      <label><input type="radio" name="type" value="Suggestion"> Suggestion</label>
+      <label><input type="radio" name="type" value="Something I liked"> Something I liked</label>
+    </fieldset>
+
+    <label for="message">What did you test, or what went wrong?</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <label for="email">Email, optional, if you want a reply</label>
+    <input type="email" id="email" name="email" autocomplete="email">
+    <p class="hint">Leave this blank if you do not want a reply.</p>
+
+    <button type="submit">Send feedback</button>
+    <p class="note">Tapping Send feedback will open your email app with everything filled in for you. You just tap Send in your email app, and it comes straight to me.</p>
+    <p class="note">This page sends nothing on its own and does not track you. Nothing leaves your phone until you send that email.</p>
+  </form>
+</main>
+<script>
+  document.getElementById("feedback-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (FEEDBACK_EMAIL.indexOf("@") === -1) {
+      alert("The feedback email address has not been set on this page yet.");
+      return;
+    }
+
+    var build = document.getElementById("build").value.trim();
+    var phone = document.getElementById("phone").value.trim();
+    var type = document.querySelector('input[name="type"]:checked').value;
+    var message = document.getElementById("message").value.trim();
+    var email = document.getElementById("email").value.trim();
+
+    var lines = [
+      "Build version: " + build,
+      "Phone and Android version: " + phone,
+      "Type: " + type,
+      "",
+      "What did you test, or what went wrong?",
+      message,
+      "",
+      "Email, if you want a reply: " + (email ? email : "Not given")
+    ];
+
+    var subject = encodeURIComponent("Garrán feedback");
+    var body = encodeURIComponent(lines.join("\n"));
+    window.location.href = "mailto:" + FEEDBACK_EMAIL + "?subject=" + subject + "&body=" + body;
+  });
+</script>
+</body>
+</html>
